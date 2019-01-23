@@ -1,6 +1,7 @@
 #include <iostream>
 #include <typeinfo>
 #include <vector>
+#include <string>
 #include "Keyboard.hpp"
 #include "Key.hpp"
 #include "Screen.hpp"
@@ -31,10 +32,10 @@ int main(){
   Note C(Do); Note D(Re); Note E(Mi); Note F(Fa); Note G(Sol); Note A(La); Note B(Si);
   Note Cd(Dod); Note Dd(Red); Note Fd(Fad); Note Gd(Sold); Note Ad(Lad);
 
-  TroisSons accTab[3];
-  accTab[0] = TroisSons(C, false, false);
-  accTab[1] = TroisSons(D, false, false);
-  accTab[2] = TroisSons(E, false, false);
+  Accord accTab[10];
+  for(int i = 0; i<10; i++){
+    accTab[i] = tirageAleatoire();
+  }
 
   vector<Note> chordNotes;
 
@@ -65,6 +66,14 @@ int main(){
                 &accTab[i],
                 &window);
 
+  sf::Text affScore;
+  sf::Font font;
+  font.loadFromFile("arial_narrow_7.ttf");
+  affScore.setFillColor(sf::Color::White);
+  affScore.setCharacterSize(100);
+  affScore.setFont(font);
+  affScore.setPosition(600, 100);
+
   while(window.isOpen())
   {
     // màj de la fenêtre
@@ -72,6 +81,8 @@ int main(){
     clavier.draw();
     ecran.set_accord(&accTab[i]);
     ecran.draw();
+    affScore.setString("Score : " + to_string(score));
+    window.draw(affScore);
 
     sf::Event event;
     while(window.pollEvent(event))
@@ -154,30 +165,56 @@ int main(){
     }
 
     if(mae == 0){ // rempissage de l'accord réponse
-      // if(typeid(accTab[i])==typeid(PowerChord)){
-      //   if(chordNotes.size() == 2){
-      //     mae = 1;
-      //     chordNotes.clear();
-      //   }
-      // }
+      if(typeid(accTab[i])==typeid(PowerChord)){
+        if(chordNotes.size() == 2){
+          mae = 1;
+          chordNotes.clear();
+        }
+      }
       if(typeid(accTab[i])==typeid(TroisSons)){
         if(chordNotes.size() == 3){
           mae = 1;
           chordNotes.clear();
         }
       }
-      // if(typeid(accTab[i])==typeid(QuatreSons)){
-      //   if(chordNotes.size() == 4){
-      //     mae = 1;
-      //     chordNotes.clear();
-      //   }
-      // }
+      if(typeid(accTab[i])==typeid(QuatreSons)){
+        if(chordNotes.size() == 4){
+          mae = 1;
+          chordNotes.clear();
+        }
+      }
     } else if (mae == 1){ // résultat
+      if(typeid(accTab[i])==typeid(PowerChord)){
+        PowerChord reponse(chordNotes[0], chordNotes[1]);
+        if(reponse == (PowerChord) accTab[i]) score++;
+        i++;
+        if(i < 2){
+          mae = 0;
+        }
+        else {
+          mae = 2;
+          ecran.on = false; // extinction de l'écran
+        }
+        cout << score << endl;
+      }
       if(typeid(accTab[i])==typeid(TroisSons)){
         TroisSons reponse(chordNotes[0], chordNotes[1], chordNotes[2]);
-        if(reponse == accTab[i]) score++;
+        if(reponse == (TroisSons) accTab[i]) score++;
         i++;
         if(i < 3){
+          mae = 0;
+        }
+        else {
+          mae = 2;
+          ecran.on = false; // extinction de l'écran
+        }
+        cout << score << endl;
+      }
+      if(typeid(accTab[i])==typeid(QuatreSons)){
+        QuatreSons reponse(chordNotes[0], chordNotes[1], chordNotes[2], chordNotes[3]);
+        if(reponse == (QuatreSons) accTab[i]) score++;
+        i++;
+        if(i < 4){
           mae = 0;
         }
         else {

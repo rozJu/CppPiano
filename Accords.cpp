@@ -160,3 +160,37 @@ bool QuatreSons::operator!=(const QuatreSons& acc)const
                         || (this->tierce != acc.tierce)
                         || (this->septieme != acc.septieme));
 }
+
+
+
+/**************************** Functions ****************************/
+
+Accord tirageAleatoire()
+{
+
+	srand(time(NULL));
+
+	int nbreSons = rand()%3;
+	int noteFondamentale = rand()%12;
+	int vDeuxSons = rand()%2;
+	int vTroisSons = rand()%2;
+	int vQuatreSons = rand()%2;
+	Note nouvelleNote(static_cast<noteName>(noteFondamentale));
+	switch(nbreSons){
+		case (0) :
+		return PowerChord(nouvelleNote, vDeuxSons);
+		break;
+
+		case (1) :
+		return TroisSons(nouvelleNote, vDeuxSons, vTroisSons);
+		break;
+
+		case (2) :
+		return QuatreSons(nouvelleNote, vDeuxSons, vTroisSons, vQuatreSons);
+		break;
+    default:
+      Note C(Do);
+      return PowerChord(C, false);
+    break;
+	}
+}

@@ -76,4 +76,7 @@ class QuatreSons : public TroisSons
     virtual bool operator!=(const QuatreSons&)const;
 };
 
+Accord tirageAleatoire();
+Accord* tableauDixAccords();
+
 #endif
