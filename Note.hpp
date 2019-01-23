@@ -2,7 +2,6 @@
 #define NOTE_H_
 
 #include <iostream>
-
 using namespace std;
 
 enum noteName

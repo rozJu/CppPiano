@@ -1,4 +1,4 @@
-#include "Note.hh"
+#include "Note.hpp"
 
 /**************************** enum ****************************/
 namespace

@@ -1,6 +1,8 @@
 #include <iostream>
 #include "Keyboard.hpp"
 #include "Key.hpp"
+#include "Screen.hpp"
+#include "Accords.hpp"
 
 #define X_WIN_SIZE 1500
 #define Y_WIN_SIZE 1000
@@ -22,7 +24,9 @@
 using namespace std;
 
 int main(){
+
   sf::RenderWindow window(sf::VideoMode(X_WIN_SIZE,Y_WIN_SIZE), "Yellow");
+  window.setKeyRepeatEnabled(false);
 
   Keyboard clavier(0, 500,
                   sf::RectangleShape(sf::Vector2f(X_KEYBOARD_SIZE, Y_KEYBOARD_SIZE)),
@@ -43,10 +47,19 @@ int main(){
                           "pianoSounds/Piano.mf.Ab3.wav",
                           "pianoSounds/Piano.mf.Bb3.wav");
 
+  Note C(Do);
+  TroisSons acc(C, false, false);
+  Screen ecran(100, 100,
+                sf::RectangleShape(sf::Vector2f(400.f, 300.f)),
+                sf::Color::White,
+                &acc,
+                &window);
+
   while(window.isOpen())
   {
     window.clear(sf::Color(80, 80, 80, 0));
     clavier.draw();
+    ecran.draw();
 
     sf::Event event;
     while(window.pollEvent(event))

@@ -2,8 +2,7 @@
 #define ACCORDS_H_
 
 #include <iostream>
-#include "Note.hh"
-
+#include "Note.hpp"
 using namespace std;
 
 /* ======================================================================= */
@@ -45,7 +44,7 @@ class PowerChord : public Accord
 class TroisSons : public PowerChord
 {
   protected :
-    Note tierce; 
+    Note tierce;
   public :
   TroisSons(Note&, const bool&, const bool&);
   TroisSons(const TroisSons&);

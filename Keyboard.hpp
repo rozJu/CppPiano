@@ -1,6 +1,8 @@
 #ifndef KEYBOARD_H_
 #define KEYBOARD_H_
 
+#include <vector>
+#include <list>
 #include "objGraph.hpp"
 #include "Key.hpp"
 
@@ -12,10 +14,11 @@ class Keyboard : public ObjGraph
     sf::RectangleShape clavier;
     sf::Color color;
     sf::RenderWindow *window;
-    // Faire une map qui associe une touche de clavier
 
   public :
     vector<Key> Keys;
+    // map<sf::Keyboard, int> noteClavier;
+
     Keyboard(const int&, const int&,
                          const sf::RectangleShape&,
                          const sf::Color&,

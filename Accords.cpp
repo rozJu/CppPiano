@@ -1,4 +1,4 @@
-#include "Accords.hh"
+#include "Accords.hpp"
 
 /**************************** Constructors ****************************/
 

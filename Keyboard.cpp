@@ -27,6 +27,12 @@ Keyboard::Keyboard( const int& x,
       if(i != 4)
         this->Keys.push_back(Key(i*150-45, 650, sf::RectangleShape(sf::Vector2f(90.f, 200.f)), sf::Color::Black, window));
   }
+
+  // this->noteClavier = {{sf::Keyboard::Q, 0},{sf::Keyboard::S, 1},{sf::Keyboard::D, 2},
+  //                      {sf::Keyboard::F, 3},{sf::Keyboard::G, 4},{sf::Keyboard::H, 5},
+  //                      {sf::Keyboard::J, 6},{sf::Keyboard::K, 7},{sf::Keyboard::Z, 8},
+  //                      {sf::Keyboard::E, 9},{sf::Keyboard::T, 10},{sf::Keyboard::Y, 11},
+  //                      {sf::Keyboard::U, 12}};
 }
 Keyboard::Keyboard(const Keyboard& kb) : ObjGraph(kb)
 {}
