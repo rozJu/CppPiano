@@ -9,7 +9,8 @@ Screen::Screen(const int& x,
                                     ecran(r),
                                     color(c),
                                     acc(a),
-                                    window(w)
+                                    window(w),
+                                    on(true)
 {
   this->ecran.setFillColor(this->color);
   this->ecran.setPosition(this->posX, this->posY);
@@ -26,7 +27,11 @@ Screen::Screen(const int& x,
 
 void Screen::draw()
 {
-  this->nomAcc.setString(this->acc->get_nom());
+  if(this->on)
+    this->nomAcc.setString(this->acc->get_nom());
+  else
+    this->nomAcc.setString(" ");
+
   this->window->draw(this->ecran);
   this->window->draw(this->nomAcc);
 }
@@ -35,3 +40,7 @@ void Screen::set_accord(Accord* a)
 {
   this->acc = a;
 }
+
+// void Screen::set_on(bool& b){
+//   this->on = b;
+// }

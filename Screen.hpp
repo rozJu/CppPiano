@@ -27,9 +27,11 @@ class Screen : ObjGraph
     void draw();
 
     void set_accord(Accord* a);
-    // string get_accord()const;
 
-    // ~Screen();
+    bool on;
+    // void set_on(bool& b);
+
+    // string get_accord()const;
 };
 
 #endif

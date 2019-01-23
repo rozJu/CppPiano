@@ -3,12 +3,16 @@
 /**************************** Constructors ****************************/
 
 // Accord
+Accord::Accord()
+{}
 Accord::Accord(Note& fond) : fondamentale(fond), nom(fond.toString())
 {}
 Accord::Accord(const Accord& a) : fondamentale(a.fondamentale), nom(a.nom)
 {}
 
 // PowerChord
+PowerChord::PowerChord()
+{}
 PowerChord::PowerChord(Note& fond, const bool& dim) : Accord(fond), quinte(fond)
 {
   if(dim){
@@ -21,8 +25,17 @@ PowerChord::PowerChord(Note& fond, const bool& dim) : Accord(fond), quinte(fond)
 }
 PowerChord::PowerChord(const PowerChord& pwc) : Accord(pwc), quinte(pwc.quinte)
 {}
+PowerChord::PowerChord(Note& fond, Note& q) : Accord(fond), quinte(q)
+{
+  if(q-fond == 6)     // si il y a 6 demi-tons entre la fondamentale et la quinte (quinte diminuée)
+    nom += "5dim";    // on ajoute au nom que la quinte est diminuée
+  else if (q-fond == 7)
+    nom += "5";
+}
 
 // TroisSons
+TroisSons::TroisSons()
+{}
 TroisSons::TroisSons(Note& fond, const bool& min, const bool& dim) : PowerChord(fond, dim), tierce(fond)
 {
   if(min){ // l'accord est mineur
@@ -34,8 +47,15 @@ TroisSons::TroisSons(Note& fond, const bool& min, const bool& dim) : PowerChord(
 }
 TroisSons::TroisSons(const TroisSons& acc) : PowerChord(acc), tierce(acc.tierce)
 {}
+TroisSons::TroisSons(Note& fond, Note& t, Note& q) : PowerChord(fond, q), tierce(t)
+{
+  if(t-fond == 3)   // si il y a trois demi-tons entre la fondamentale et la tierce (tièrce mineure)
+    nom += "m";     // alors on ajoute un "m" au nom de l'accord
+}
 
 // QuatreSons
+QuatreSons::QuatreSons()
+{}
 QuatreSons::QuatreSons(Note& fond, const bool& tmin, const bool& smin, const bool& dim) : TroisSons(fond, tmin, dim), septieme(fond)
 {
   if(smin){
@@ -48,7 +68,13 @@ QuatreSons::QuatreSons(Note& fond, const bool& tmin, const bool& smin, const boo
 }
 QuatreSons::QuatreSons(const QuatreSons& acc) : TroisSons(acc), septieme(acc.septieme)
 {}
-
+QuatreSons::QuatreSons(Note& fond, Note& t, Note& q, Note& s) : TroisSons(fond, t, q), septieme(s)
+{
+  if(s-fond == 10)
+    nom += "7";
+  else if (s-fond == 11)
+    nom += "M7";
+}
 /**************************** Getters ****************************/
 
 // Accord

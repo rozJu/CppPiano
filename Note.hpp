@@ -13,6 +13,7 @@ class Note {
   private :
     noteName nom;
   public :
+    Note();
     Note(const noteName&);
     Note(const Note&);
 
@@ -22,6 +23,7 @@ class Note {
     bool operator!=(const Note&) const;
     void operator+=(const int&);
 
+    friend int operator-(const Note&, const Note&);
     friend ostream& operator<<(ostream&, const Note&);
 };
 

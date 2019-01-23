@@ -1,4 +1,6 @@
 #include <iostream>
+#include <typeinfo>
+#include <vector>
 #include "Keyboard.hpp"
 #include "Key.hpp"
 #include "Screen.hpp"
@@ -25,6 +27,17 @@ using namespace std;
 
 int main(){
 
+  int mae=0, i=0, score=0;
+  Note C(Do); Note D(Re); Note E(Mi); Note F(Fa); Note G(Sol); Note A(La); Note B(Si);
+  Note Cd(Dod); Note Dd(Red); Note Fd(Fad); Note Gd(Sold); Note Ad(Lad);
+
+  TroisSons accTab[3];
+  accTab[0] = TroisSons(C, false, false);
+  accTab[1] = TroisSons(D, false, false);
+  accTab[2] = TroisSons(E, false, false);
+
+  vector<Note> chordNotes;
+
   sf::RenderWindow window(sf::VideoMode(X_WIN_SIZE,Y_WIN_SIZE), "Yellow");
   window.setKeyRepeatEnabled(false);
 
@@ -32,7 +45,6 @@ int main(){
                   sf::RectangleShape(sf::Vector2f(X_KEYBOARD_SIZE, Y_KEYBOARD_SIZE)),
                   sf::Color(255, 255, 0),
                   &window);
-
   clavier.set_Keys_sounds("pianoSounds/Piano.mf.C3.wav",
                           "pianoSounds/Piano.mf.D3.wav",
                           "pianoSounds/Piano.mf.E3.wav",
@@ -47,18 +59,18 @@ int main(){
                           "pianoSounds/Piano.mf.Ab3.wav",
                           "pianoSounds/Piano.mf.Bb3.wav");
 
-  Note C(Do);
-  TroisSons acc(C, false, false);
   Screen ecran(100, 100,
                 sf::RectangleShape(sf::Vector2f(400.f, 300.f)),
                 sf::Color::White,
-                &acc,
+                &accTab[i],
                 &window);
 
   while(window.isOpen())
   {
+    // màj de la fenêtre
     window.clear(sf::Color(80, 80, 80, 0));
     clavier.draw();
+    ecran.set_accord(&accTab[i]);
     ecran.draw();
 
     sf::Event event;
@@ -67,19 +79,58 @@ int main(){
       switch(event.type)
       {
         case(sf::Event::KeyPressed):
-          if(event.key.code == sf::Keyboard::Q) clavier.Keys[0].play();
-          if(event.key.code == sf::Keyboard::S) clavier.Keys[1].play();
-          if(event.key.code == sf::Keyboard::D) clavier.Keys[2].play();
-          if(event.key.code == sf::Keyboard::F) clavier.Keys[3].play();
-          if(event.key.code == sf::Keyboard::G) clavier.Keys[4].play();
-          if(event.key.code == sf::Keyboard::H) clavier.Keys[5].play();
-          if(event.key.code == sf::Keyboard::J) clavier.Keys[6].play();
-          if(event.key.code == sf::Keyboard::K) clavier.Keys[7].play();
-          if(event.key.code == sf::Keyboard::Z) clavier.Keys[8].play();
-          if(event.key.code == sf::Keyboard::E) clavier.Keys[9].play();
-          if(event.key.code == sf::Keyboard::T) clavier.Keys[10].play();
-          if(event.key.code == sf::Keyboard::Y) clavier.Keys[11].play();
-          if(event.key.code == sf::Keyboard::U) clavier.Keys[12].play();
+          if(event.key.code == sf::Keyboard::Q){
+            clavier.Keys[0].play();
+            chordNotes.push_back(C);
+          }
+          if(event.key.code == sf::Keyboard::S){
+            clavier.Keys[1].play();
+            chordNotes.push_back(D);
+          }
+          if(event.key.code == sf::Keyboard::D){
+            clavier.Keys[2].play();
+            chordNotes.push_back(E);
+          }
+          if(event.key.code == sf::Keyboard::F){
+            clavier.Keys[3].play();
+            chordNotes.push_back(F);
+          }
+          if(event.key.code == sf::Keyboard::G){
+            clavier.Keys[4].play();
+            chordNotes.push_back(G);
+          }
+          if(event.key.code == sf::Keyboard::H){
+            clavier.Keys[5].play();
+            chordNotes.push_back(A);
+          }
+          if(event.key.code == sf::Keyboard::J){
+            clavier.Keys[6].play();
+            chordNotes.push_back(B);
+          }
+          if(event.key.code == sf::Keyboard::K){
+            clavier.Keys[7].play();
+            chordNotes.push_back(C);
+          }
+          if(event.key.code == sf::Keyboard::Z){
+            clavier.Keys[8].play();
+            chordNotes.push_back(Cd);
+          }
+          if(event.key.code == sf::Keyboard::E){
+            clavier.Keys[9].play();
+            chordNotes.push_back(Dd);
+          }
+          if(event.key.code == sf::Keyboard::T){
+            clavier.Keys[10].play();
+            chordNotes.push_back(Fd);
+          }
+          if(event.key.code == sf::Keyboard::Y){
+            clavier.Keys[11].play();
+            chordNotes.push_back(Gd);
+          }
+          if(event.key.code == sf::Keyboard::U){
+            clavier.Keys[12].play();
+            chordNotes.push_back(Gd);
+          }
         break;
         case(sf::Event::KeyReleased):
           if(event.key.code == sf::Keyboard::Q) clavier.Keys[0].realease();
@@ -101,6 +152,43 @@ int main(){
         break;
       }
     }
+
+    if(mae == 0){ // rempissage de l'accord réponse
+      // if(typeid(accTab[i])==typeid(PowerChord)){
+      //   if(chordNotes.size() == 2){
+      //     mae = 1;
+      //     chordNotes.clear();
+      //   }
+      // }
+      if(typeid(accTab[i])==typeid(TroisSons)){
+        if(chordNotes.size() == 3){
+          mae = 1;
+          chordNotes.clear();
+        }
+      }
+      // if(typeid(accTab[i])==typeid(QuatreSons)){
+      //   if(chordNotes.size() == 4){
+      //     mae = 1;
+      //     chordNotes.clear();
+      //   }
+      // }
+    } else if (mae == 1){ // résultat
+      if(typeid(accTab[i])==typeid(TroisSons)){
+        TroisSons reponse(chordNotes[0], chordNotes[1], chordNotes[2]);
+        if(reponse == accTab[i]) score++;
+        i++;
+        if(i < 3){
+          mae = 0;
+        }
+        else {
+          mae = 2;
+          ecran.on = false; // extinction de l'écran
+        }
+        cout << score << endl;
+      }
+    }
+
+    // Affichage de la fenêtre
     window.display();
   }
   return 0;
