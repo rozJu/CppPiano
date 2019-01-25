@@ -5,14 +5,14 @@
 // Accord
 Accord::Accord()
 {}
-Accord::Accord(Note& fond) : fondamentale(fond), nom(fond.toString())
+Accord::Accord(Note& fond) : fondamentale(fond), nom(fond.toString()), nbNote(1)
 {}
-Accord::Accord(const Accord& a) : fondamentale(a.fondamentale), nom(a.nom)
+Accord::Accord(const Accord& a) : fondamentale(a.fondamentale), nom(a.nom), nbNote(a.nbNote)
 {}
 
 // PowerChord
 PowerChord::PowerChord()
-{}
+{this->nbNote = 2;}
 PowerChord::PowerChord(Note& fond, const bool& dim) : Accord(fond), quinte(fond)
 {
   if(dim){
@@ -22,40 +22,59 @@ PowerChord::PowerChord(Note& fond, const bool& dim) : Accord(fond), quinte(fond)
     this->quinte += 7;
     nom += "5";
   }
+  this->nbNote = 2;
 }
 PowerChord::PowerChord(const PowerChord& pwc) : Accord(pwc), quinte(pwc.quinte)
 {}
 PowerChord::PowerChord(Note& fond, Note& q) : Accord(fond), quinte(q)
 {
-  if(q-fond == 6)     // si il y a 6 demi-tons entre la fondamentale et la quinte (quinte diminuée)
-    nom += "5dim";    // on ajoute au nom que la quinte est diminuée
+  if(q-fond == 6)          // si il y a 6 demi-tons entre la fondamentale et la quinte (quinte diminuée)
+    nom += "5dim";         // on ajoute au nom que la quinte est diminuée
   else if (q-fond == 7)
     nom += "5";
+  this->nbNote = 2;
 }
 
 // TroisSons
 TroisSons::TroisSons()
-{}
+{this->nbNote = 3;}
 TroisSons::TroisSons(Note& fond, const bool& min, const bool& dim) : PowerChord(fond, dim), tierce(fond)
 {
-  if(min){ // l'accord est mineur
+  nom = fond.toString();
+  if(min){                 // l'accord est mineur
     this->tierce += 3;
     nom += "m";
-  } else { // l'accord est majeur
+    if(dim){
+      this->quinte += 6;
+      nom += "b5";
+    } else {
+      this->quinte += 7;
+    }
+  } else {                 // l'accord est majeur
     this->tierce += 4;
+    if(dim){
+      this->quinte += 6;
+      nom += "b5";
+    } else {
+      this->quinte += 7;
+    }
   }
+  this->nbNote = 3;
 }
 TroisSons::TroisSons(const TroisSons& acc) : PowerChord(acc), tierce(acc.tierce)
 {}
 TroisSons::TroisSons(Note& fond, Note& t, Note& q) : PowerChord(fond, q), tierce(t)
 {
-  if(t-fond == 3)   // si il y a trois demi-tons entre la fondamentale et la tierce (tièrce mineure)
-    nom += "m";     // alors on ajoute un "m" au nom de l'accord
+  if(t-fond == 3)          // si il y a trois demi-tons entre la fondamentale et la tierce (tièrce mineure)
+    nom += "m";            // alors on ajoute un "m" au nom de l'accord
+  if(q-fond == 6)
+    nom += "b5";
+  this->nbNote = 3;
 }
 
 // QuatreSons
 QuatreSons::QuatreSons()
-{}
+{this->nbNote = 4;}
 QuatreSons::QuatreSons(Note& fond, const bool& tmin, const bool& smin, const bool& dim) : TroisSons(fond, tmin, dim), septieme(fond)
 {
   if(smin){
@@ -65,6 +84,7 @@ QuatreSons::QuatreSons(Note& fond, const bool& tmin, const bool& smin, const boo
     this->septieme += 11;
     nom += "M7";
   }
+  this->nbNote = 4;
 }
 QuatreSons::QuatreSons(const QuatreSons& acc) : TroisSons(acc), septieme(acc.septieme)
 {}
@@ -74,6 +94,7 @@ QuatreSons::QuatreSons(Note& fond, Note& t, Note& q, Note& s) : TroisSons(fond, 
     nom += "7";
   else if (s-fond == 11)
     nom += "M7";
+  this->nbNote = 4;
 }
 /**************************** Getters ****************************/
 
@@ -167,9 +188,6 @@ bool QuatreSons::operator!=(const QuatreSons& acc)const
 
 Accord tirageAleatoire()
 {
-
-	srand(time(NULL));
-
 	int nbreSons = rand()%3;
 	int noteFondamentale = rand()%12;
 	int vDeuxSons = rand()%2;

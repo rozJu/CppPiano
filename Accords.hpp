@@ -13,6 +13,8 @@ class Accord
     Note fondamentale;
     string nom;
   public :
+    int nbNote;
+
     Accord();
     Accord(Note&);
     Accord(const Accord&);
@@ -66,7 +68,7 @@ class QuatreSons : public TroisSons
   protected :
     Note septieme;
   public :
-    QuatreSons(); 
+    QuatreSons();
     QuatreSons(Note&, const bool&, const bool&, const bool&);
     QuatreSons(const QuatreSons&);
     QuatreSons(Note&, Note&, Note&, Note&);

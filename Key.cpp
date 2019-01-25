@@ -1,5 +1,7 @@
 #include "Key.hpp"
 
+/**************************** Constructors ****************************/
+
 Key::Key(const int& x, const int& y, const sf::RectangleShape& r,
                                      const sf::Color& c,
                                      sf::RenderWindow* w): ObjGraph(x,y),
@@ -13,26 +15,30 @@ Key::Key(const int& x, const int& y, const sf::RectangleShape& r,
   this->touche.setOutlineColor(sf::Color::Black);
 }
 
-void Key::set_sound(const string& file)
+/**************************** Seter ****************************/
+
+void Key::set_sound(const string& file)           // configuration du sond associé à la touche
 {
   if (!this->buff.loadFromFile(file)) cout << "error SoundBuffer" << endl;
   this->sound.setBuffer(buff);
 }
 
-void Key::draw()
+/**************************** Méthodes ****************************/
+
+void Key::draw()                                  // Affichage de la touche
 {
   this->window->draw(this->touche);
 }
 
-void Key::play()
+void Key::play()                                  // fonction appelée quand l'utilisateur joue une note
 {
-  this->touche.setFillColor(sf::Color::Yellow);
-  sound.play();
+  this->touche.setFillColor(sf::Color::Yellow);   // La touche change de couleur
+  sound.play();                                   // le son du la touche est joué
 }
 
-void Key::realease()
+void Key::realease()                              // Fonction appelée quand l'utilisateur relache la touche
 {
-  this->touche.setFillColor(this->color);
+  this->touche.setFillColor(this->color);         // La touche reprend sa couleur initiale
 }
 
 Key::~Key()
