@@ -1,3 +1,9 @@
+/*****************************************************************************/
+//  ObjGraph est la classe mère de toutes les classes gérant de l'affichage
+//  avec la SFML. En effet toutes ces classes auront besoint d'une position
+//  (x et y) et d'une fonction qui la déssinera sur la fenêtre (draw()).
+//  Cette classe est virtuelle.
+/*****************************************************************************/
 #ifndef OBJGRAPH_H_
 #define OBJGRAPH_H_
 

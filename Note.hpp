@@ -1,3 +1,7 @@
+/*****************************************************************************/
+//  Dans ce fichier est définie la classe Note et l'enum noteName, cet enum
+//  permet de limiter les noms de notes possibles à ceux existants.
+/*****************************************************************************/
 #ifndef NOTE_H_
 #define NOTE_H_
 
@@ -11,14 +15,15 @@ enum noteName
 
 class Note {
   private :
-    noteName nom;
+    noteName nom; // Nom de la note
   public :
+    // Constructeurs
     Note();
     Note(const noteName&);
     Note(const Note&);
-
+    // Getteur
     string toString();
-
+    // Surcharges d'opérateur
     bool operator==(const Note&) const;
     bool operator!=(const Note&) const;
     void operator+=(const int&);
