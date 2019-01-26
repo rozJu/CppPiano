@@ -37,9 +37,7 @@ int main(){
   Accord accTab[10];
   for(int i = 0; i<10; i++){
     accTab[i] = tirageAleatoire();
-    cout << accTab[i].get_nom() << " ";
   }
-  cout << endl;
 
   vector<Note> chordNotes;
 
@@ -186,7 +184,7 @@ int main(){
           chordNotes.clear();   // on vide le vecteur des notes saisies pour récuoérer l'accord suivant
         }
     }
-    // Phase 2 : résultat
+    // Phase 2 : gestion du résultat
     else if (mae == 1)
     {
       if(accTab[i].nbNote == 2){
@@ -198,18 +196,15 @@ int main(){
         TroisSons reponse(chordNotes[0], chordNotes[1], chordNotes[2]);
         if(accTab[i] == reponse) score++;
         i++;
-        cout << score << endl;
       }
       if(accTab[i].nbNote == 4){
         QuatreSons reponse(chordNotes[0], chordNotes[1], chordNotes[2], chordNotes[3]);
         if(accTab[i] == reponse) score++;
         i++;
-        cout << score << endl;
       }
 
       if(i < 10){
         mae = 0;
-        cout << "mae=0" << endl;
       }
       else {
         mae = 2;

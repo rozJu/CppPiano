@@ -110,7 +110,7 @@ class QuatreSons : public TroisSons
 };
 
 /* ======================================================================= */
-
+//  Fonction permettant de générer un accord de façon aléatoire 
 Accord tirageAleatoire();
 
 #endif
